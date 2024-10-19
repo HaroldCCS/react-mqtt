@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import {env} from "./vars"
 import mqtt from "mqtt";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-const mqttUsername = process.env.REACT_APP_MQTT_USERNAME;
-const mqttPassword = process.env.REACT_APP_MQTT_PASSWORD;
-const mqttTopic = process.env.REACT_APP_MQTT_TOPIC;
+const apiUrl = env.REACT_APP_API_URL;
+const mqttUsername = env.REACT_APP_MQTT_USERNAME;
+const mqttPassword = env.REACT_APP_MQTT_PASSWORD;
+const mqttTopic = env.REACT_APP_MQTT_TOPIC;
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,7 +33,6 @@ function App() {
       setStatus(client.connected ? "Conectado" : "Desconectado");
 
       await client.subscribe(mqttTopic);
-      await client.publish(mqttTopic, "123");
 
       client.on("message", (topic, message) => {
         setHistory(prev => [...prev, message.toString()]);
